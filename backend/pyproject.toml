@@ -1,0 +1,135 @@
+[tool.poetry]
+name = "comitari"
+version = "0.2.2"
+description = "Comitari "
+authors = ["Yuri Nogueira <personal@yurinogueira.dev.br>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.5"
+environ = "^1.0"
+django-environ = "^0.11.2"
+djangorestframework = "^3.14.0"
+django-filter = "^23.2"
+djangorestframework-camel-case = "^1.4.2"
+drf-spectacular = "^0.26.4"
+djangorestframework-simplejwt = "^5.3.0"
+django-import-export = "^3.2.0"
+django-simple-history = "^3.3.0"
+model-bakery = "^1.15.0"
+pytest = "^7.4.2"
+isort = "^5.12.0"
+black = "^23.7.0"
+boto3 = "^1.28.43"
+django-storages = "^1.14"
+django-cors-headers = "^4.2.0"
+pyotp = "^2.9.0"
+ramos = "^1.4.0"
+psycopg2-binary = "^2.9.7"
+pytest-django = "^4.5.2"
+coverage = "^7.3.1"
+pytest-cov = "^4.1.0"
+faker = "^19.6.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+target-version = ["py311"]
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+    | manage.py
+    | migrations
+  )
+)
+'''
+
+[tool.isort]
+profile = "black"
+combine_as_imports = true
+force_grid_wrap = 0
+force_sort_within_sections = true
+include_trailing_comma = true
+known_django = "django"
+known_first_party = "core,users"
+multi_line_output = 3
+sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+skip_glob = [
+    "**migrations**"
+]
+use_parentheses = true
+
+[tool.pytest.ini_options]
+python_files = "test*.py"
+norecursedirs = ".* build dist CVS _darcs {arch} *.egg *.egg-info venv docs .git appdir .tox"
+console_output_style = "progress"
+testpaths = [
+    "backends",
+    "core",
+    "users",
+]
+addopts = "--ds=comitari.settings --durations=5 --cov-report=term-missing --cov=."
+
+[tool.coverage.run]
+branch = true
+omit = [
+    "*test*",
+    "*settings*",
+    "*apps*",
+    "*/*site-packages*/**",
+    "*__init__.py",
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_also = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+
+    # Don't complain about abstract methods, they aren't run:
+    "@(abc\\.)?abstractmethod",
+]
+omit = [
+    "*tests*",
+    "*apps.py",
+    "*manage.py",
+    "*__init__.py",
+    "*tests*",
+    "*migrations*",
+    "*asgi*",
+    "*wsgi*",
+    "*admin.py",
+    "*urls.py",
+]
+
+ignore_errors = true
+
+[tool.coverage.html]
+directory = "static/coverage"

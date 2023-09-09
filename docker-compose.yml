@@ -1,0 +1,46 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres-container
+    restart: unless-stopped
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - comitari-network
+    env_file: ./config/.env
+
+  redis:
+    image: redis:7-alpine
+    container_name: comitari-redis-container
+    volumes:
+      - redis-data:/data
+    networks:
+      - comitari-network
+
+  api:
+    image: ngrtec/comitari:0.2.2
+    container_name: comitari-api
+    restart: "unless-stopped"
+    stop_grace_period: "5s"
+    environment:
+      COMMAND: development
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - comitari-network
+    env_file:
+      - ./config/.env
+
+networks:
+  comitari-network:
+
+volumes:
+  postgres-data:
+  redis-data:
