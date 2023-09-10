@@ -19,8 +19,17 @@ services:
     networks:
       - comitari-network
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: comitari-rabbitmq-container
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - comitari-network
+
   api:
-    image: ngrtec/comitari:0.2.2
+    image: ngrtec/comitari:0.2.3
     container_name: comitari-api
     restart: "unless-stopped"
     stop_grace_period: "5s"
@@ -28,11 +37,49 @@ services:
       COMMAND: development
     volumes:
       - ./backend:/app
+      - django-staticfiles:/app/staticfiles
+      - django-pytest:/app/.pytest_cache
+      - django-coverage:/app/.coverage
     ports:
       - "8000:8000"
     depends_on:
       - postgres
       - redis
+    networks:
+      - comitari-network
+    env_file:
+      - ./config/.env
+
+  worker:
+    image: ngrtec/comitari:0.2.3
+    deploy:
+      mode: replicated
+      replicas: 2
+    restart: "unless-stopped"
+    stop_grace_period: "5s"
+    environment:
+      COMMAND: worker
+    depends_on:
+      - api
+      - postgres
+      - redis
+    networks:
+      - comitari-network
+    env_file:
+      - ./config/.env
+
+  beat:
+    image: ngrtec/comitari:0.2.3
+    container_name: comitari-beat
+    restart: "unless-stopped"
+    stop_grace_period: "5s"
+    environment:
+      COMMAND: beat
+    depends_on:
+      - api
+      - postgres
+      - redis
+      - rabbitmq
     networks:
       - comitari-network
     env_file:
@@ -44,3 +91,6 @@ networks:
 volumes:
   postgres-data:
   redis-data:
+  django-staticfiles:
+  django-pytest:
+  django-coverage:

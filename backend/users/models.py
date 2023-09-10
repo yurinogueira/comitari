@@ -32,6 +32,7 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    two_factor = models.BooleanField(default=False)
     history = HistoricalRecords(excluded_fields=["date_joined", "password"])
 
     USERNAME_FIELD = "email"

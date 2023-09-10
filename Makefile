@@ -20,7 +20,7 @@ development:
 	docker compose up -d
 
 stop:
-	docker compose down -v
+	docker compose down
 
 collect-static:
 	docker compose exec api python manage.py collectstatic
@@ -44,4 +44,4 @@ test:
 # Build
 # -----------------------------------------------------------------------------
 build-backend:
-	docker build -f docker/django/Dockerfile -t ngrtec/comitari:$(version) .
+	docker build --no-cache --force-rm -f docker/django/Dockerfile -t ngrtec/comitari:$(version) .

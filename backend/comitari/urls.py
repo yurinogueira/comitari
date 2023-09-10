@@ -23,13 +23,14 @@ from rest_framework_simplejwt.views import (
     TokenVerifyView,
 )
 
+from users.serializers import JWTSerializer
 
 # Open API
 schema = SpectacularAPIView.as_view()
 swagger = SpectacularSwaggerView.as_view(url_name="schema")
 
 # SimpleJWT
-token_obtain = TokenObtainPairView.as_view()
+token_obtain = TokenObtainPairView.as_view(serializer_class=JWTSerializer)
 token_refresh = TokenRefreshView.as_view()
 token_verify = TokenVerifyView.as_view()
 

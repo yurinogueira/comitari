@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_celery_beat",
+    "django_celery_results",
     "corsheaders",
     "storages",
     "rest_framework",
@@ -298,6 +300,16 @@ TIME_ZONE = "America/Sao_Paulo"
 USE_I18N = True
 
 USE_TZ = True
+
+
+# Celery
+# -----------------------------------------------------------------------------
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
+CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default=None)
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_RESULT_PERSISTENT = True
+CELERY_RESULT_BACKEND = "django-db"
+CELERY_TASK_TIME_LIMIT = 30 * 60
 
 
 # Default primary key field type
