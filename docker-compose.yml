@@ -1,5 +1,23 @@
 version: "3.8"
 
+x-service_defaults: &django_default
+  env_file: ./config/.env
+  image: ngrtec/comitari:0.2.4
+  restart: "unless-stopped"
+  volumes:
+    - ./backend/backends:/app/backends
+    - ./backend/comitari:/app/comitari
+    - ./backend/core:/app/core
+    - ./backend/static:/app/static
+    - ./backend/users:/app/users
+    - ./backend/conftest.py:/app/conftest.py
+    - ./backend/manage.py:/app/manage.py
+    - ./backend/poetry.lock:/app/poetry.lock
+    - ./backend/pyproject.toml:/app/pyproject.toml
+    - ./backend/README.md:/app/README.md
+  networks:
+    - comitari-network
+
 services:
   postgres:
     image: postgres:15-alpine
@@ -13,7 +31,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: comitari-redis-container
+    container_name: redis-container
     volumes:
       - redis-data:/data
     networks:
@@ -21,7 +39,7 @@ services:
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
-    container_name: comitari-rabbitmq-container
+    container_name: rabbitmq-container
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -29,33 +47,22 @@ services:
       - comitari-network
 
   api:
-    image: ngrtec/comitari:0.2.3
-    container_name: comitari-api
-    restart: "unless-stopped"
+    <<: *django_default
+    container_name: api
     stop_grace_period: "5s"
     environment:
       COMMAND: development
-    volumes:
-      - ./backend:/app
-      - django-staticfiles:/app/staticfiles
-      - django-pytest:/app/.pytest_cache
-      - django-coverage:/app/.coverage
     ports:
       - "8000:8000"
     depends_on:
       - postgres
       - redis
-    networks:
-      - comitari-network
-    env_file:
-      - ./config/.env
 
   worker:
-    image: ngrtec/comitari:0.2.3
+    <<: *django_default
     deploy:
       mode: replicated
       replicas: 2
-    restart: "unless-stopped"
     stop_grace_period: "5s"
     environment:
       COMMAND: worker
@@ -63,15 +70,10 @@ services:
       - api
       - postgres
       - redis
-    networks:
-      - comitari-network
-    env_file:
-      - ./config/.env
 
   beat:
-    image: ngrtec/comitari:0.2.3
-    container_name: comitari-beat
-    restart: "unless-stopped"
+    <<: *django_default
+    container_name: beat
     stop_grace_period: "5s"
     environment:
       COMMAND: beat
@@ -80,10 +82,6 @@ services:
       - postgres
       - redis
       - rabbitmq
-    networks:
-      - comitari-network
-    env_file:
-      - ./config/.env
 
 networks:
   comitari-network:
@@ -91,6 +89,3 @@ networks:
 volumes:
   postgres-data:
   redis-data:
-  django-staticfiles:
-  django-pytest:
-  django-coverage:

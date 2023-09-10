@@ -13,8 +13,8 @@ class BaseBackend(ABC):
 
         return secret
 
-    def generate(self, source: str, receiver: str) -> str:
+    def generate(self, source: str, receiver: str) -> str:  # pragma: no cover
         ...
 
-    def verify_code(self, source: str, code: str) -> bool:
+    def verify_code(self, source: str, code: str) -> bool:  # pragma: no cover
         ...

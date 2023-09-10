@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "comitari"
-version = "0.2.2"
-description = "Comitari "
+version = "0.2.4"
+description = "Comitari"
 authors = ["Yuri Nogueira <personal@yurinogueira.dev.br>"]
 readme = "README.md"
 
@@ -91,10 +91,19 @@ addopts = "--ds=comitari.settings --durations=5 --cov-report=term-missing --cov=
 [tool.coverage.run]
 branch = true
 omit = [
-    "*test*",
-    "*settings*",
-    "*apps*",
     "*/*site-packages*/**",
+    "*/migrations/*",
+    "*/fixtures/*",
+    "*apps.py",
+    "*celery.py",
+    "*manage.py",
+    "*settings*",
+    "*test*",
+    "*migrations*",
+    "*asgi*",
+    "*wsgi*",
+    "*admin.py",
+    "*urls.py",
     "*__init__.py",
 ]
 
@@ -120,16 +129,20 @@ exclude_also = [
     "@(abc\\.)?abstractmethod",
 ]
 omit = [
-    "*tests*",
+    "*/*site-packages*/**",
+    "*/migrations/*",
+    "*/fixtures/*",
     "*apps.py",
+    "*celery.py",
     "*manage.py",
-    "*__init__.py",
-    "*tests*",
+    "*settings*",
+    "*test*",
     "*migrations*",
     "*asgi*",
     "*wsgi*",
     "*admin.py",
     "*urls.py",
+    "*__init__.py",
 ]
 
 ignore_errors = true

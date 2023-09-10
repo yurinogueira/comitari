@@ -108,7 +108,7 @@ REST_FRAMEWORK = {
     # Pagination
     "PAGE_SIZE": 20,
     # Versioning
-    "DEFAULT_VERSION": env.str("RELEASE", "1.0.0"),
+    "DEFAULT_VERSION": "0.2.4",
     "ALLOWED_VERSIONS": None,  # tuple
     # Testing
     "TEST_REQUEST_RENDERER_CLASSES": ("rest_framework.renderers.JSONRenderer",),

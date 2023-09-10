@@ -38,7 +38,7 @@ manage:
 # Code Quality
 # -----------------------------------------------------------------------------
 test:
-	docker compose exec api pytest
+	docker compose exec api python -m pytest
 
 
 # Build
