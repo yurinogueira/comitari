@@ -306,9 +306,9 @@ USE_TZ = True
 # -----------------------------------------------------------------------------
 CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers:DatabaseScheduler"
 CELERY_BROKER_URL = env.str("CELERY_BROKER_URL", default=None)
+CELERY_RESULT_BACKEND = env.str("CELERY_RESULT_BACKEND", default="django-db")
 CELERY_TIMEZONE = TIME_ZONE
 CELERY_RESULT_PERSISTENT = True
-CELERY_RESULT_BACKEND = "django-db"
 CELERY_TASK_TIME_LIMIT = 30 * 60
 
 
