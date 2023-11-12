@@ -1,21 +1,18 @@
-FROM python:3.11-alpine
+FROM python:3.11-slim
 
 LABEL maintainer="personal@yurinogueira.dev.br"
 LABEL vendor="NGRTec"
 
-ENV PYTHONFAULTHANDLER=1 \
-    PYTHONHASHSEED=random \
-    PYTHONUNBUFFERED=1 \
-    PIP_DEFAULT_TIMEOUT=100 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1 \
-    PIP_NO_CACHE_DIR=1
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN apt-get update && apt-get install -y gcc python3-dev musl-dev libmagic1 libffi-dev netcat-traditional build-essential libpq-dev
 
 WORKDIR /app
 
 COPY backend .
 
-RUN apk add --no-cache bash gcc libffi-dev musl-dev postgresql-dev
-RUN pip install poetry
+RUN pip3 install poetry
 RUN poetry install --no-interaction --no-ansi
 
 EXPOSE 8000
