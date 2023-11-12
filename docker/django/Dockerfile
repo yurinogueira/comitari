@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY backend .
 
-RUN apk add --no-cache bash gcc libffi-dev musl-devpostgresql-dev
+RUN apk add --no-cache bash gcc libffi-dev musl-dev postgresql-dev
 RUN pip install poetry
 RUN poetry install --no-interaction --no-ansi
 
