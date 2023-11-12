@@ -10,6 +10,9 @@ jobs:
   push-backend-image:
     name: Push Backend Docker Image
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: "Checkout GitHub Action"
@@ -40,6 +43,9 @@ jobs:
   push-frontend-image:
     name: "Push Frontend Docker Image"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - name: "Checkout GitHub Action"
