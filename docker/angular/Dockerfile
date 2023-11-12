@@ -3,7 +3,7 @@ LABEL org.opencontainers.image.source="https://github.com/yurinogueira/comitari"
 
 WORKDIR /app
 
-COPY ./frontend/package*.json ./app/
+COPY ./frontend/package*.json /app/
 
 RUN npm install
 
