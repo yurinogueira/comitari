@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY backend .
 
-RUN apk add bash build-base
+RUN apk add bash build-base libffi-dev
 
 FROM py-base AS py-build
 
