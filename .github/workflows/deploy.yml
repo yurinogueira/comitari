@@ -9,7 +9,6 @@ on:
 jobs:
   push-backend-image:
     name: Push Backend Docker Image
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -40,7 +39,6 @@ jobs:
 
   push-frontend-image:
     name: "Push Frontend Docker Image"
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
