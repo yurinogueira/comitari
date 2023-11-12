@@ -19,7 +19,7 @@ services:
 
   chat-django:
     image: ghcr.io/yurinogueira/chat-django:latest
-    container_name: chat-angular
+    container_name: chat-django
     restart: always
     depends_on:
       - chat-postgres
@@ -28,7 +28,7 @@ services:
     env_file: ./config/.env
 
   chat-angular:
-    image: ghcr.io/grupinix/chat-angular:latest
+    image: ghcr.io/yurinogueira/chat-angular:latest
     container_name: chat-angular
     restart: always
     volumes:

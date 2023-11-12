@@ -33,6 +33,7 @@ EXPOSE 8000
 COPY --from=py-build /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
 COPY docker/django/docker-entrypoint.sh /docker-entrypoint.sh
 
+RUN poetry add gunicorn
 RUN chmod +x /docker-entrypoint.sh
 
 CMD ["/docker-entrypoint.sh"]
