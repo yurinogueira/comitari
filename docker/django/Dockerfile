@@ -14,7 +14,7 @@ WORKDIR /app
 
 COPY backend .
 
-RUN apk add bash
+RUN apk add bash build-base
 
 FROM py-base AS py-build
 
