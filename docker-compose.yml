@@ -2,12 +2,13 @@ version: "3.8"
 
 x-service_defaults: &django_default
   env_file: ./config/.env
-  image: ngrtec/comitari:0.2.4
+  image: ngrtec/comitari:0.2.5
   restart: "unless-stopped"
   volumes:
     - ./backend/backends:/app/backends
     - ./backend/comitari:/app/comitari
     - ./backend/core:/app/core
+    - ./backend/chat:/app/chat
     - ./backend/static:/app/static
     - ./backend/users:/app/users
     - ./backend/conftest.py:/app/conftest.py
@@ -37,15 +38,6 @@ services:
     networks:
       - comitari-network
 
-  rabbitmq:
-    image: rabbitmq:3-management-alpine
-    container_name: rabbitmq-container
-    ports:
-      - "5672:5672"
-      - "15672:15672"
-    networks:
-      - comitari-network
-
   api:
     <<: *django_default
     container_name: api
@@ -57,31 +49,6 @@ services:
     depends_on:
       - postgres
       - redis
-
-  worker:
-    <<: *django_default
-    deploy:
-      mode: replicated
-      replicas: 2
-    stop_grace_period: "5s"
-    environment:
-      COMMAND: worker
-    depends_on:
-      - api
-      - postgres
-      - redis
-
-  beat:
-    <<: *django_default
-    container_name: beat
-    stop_grace_period: "5s"
-    environment:
-      COMMAND: beat
-    depends_on:
-      - api
-      - postgres
-      - redis
-      - rabbitmq
 
 networks:
   comitari-network:

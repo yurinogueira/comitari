@@ -43,6 +43,8 @@ urlpatterns = [
     path("api/token/verify/", token_verify, name="token_verify"),
     # User
     path("users/", include(("users.urls", "users")), name="users"),
+    # Chat
+    path("chat/", include(("chat.urls", "chat")), name="chat"),
     # Open API
     path("schema/", schema, name="schema"),
     path("schema/docs/", swagger, name="swagger-ui"),
