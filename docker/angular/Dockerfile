@@ -20,6 +20,6 @@ LABEL vendor="Grupinix"
 COPY --from=chat-angular-builder /app/dist/frontend /usr/share/nginx/html
 COPY ./docker/nginx/prod.conf /temp/prod.conf
 
-RUN envsubst /app < /temp/prod.conf > /etc/nginx/nginx.conf
+RUN envsubst /app < /temp/prod.conf > /etc/nginx/conf.d/default.conf
 
 CMD ["nginx", "-g", "daemon off;"]

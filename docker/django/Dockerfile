@@ -13,7 +13,8 @@ WORKDIR /app
 COPY backend .
 
 RUN pip3 install poetry gunicorn
-RUN poetry install --no-interaction --no-ansi
+RUN poetry export -f requirements.txt -o requirements.txt --without-hashes
+RUN pip3 install -r requirements.txt
 
 EXPOSE 8000
 
