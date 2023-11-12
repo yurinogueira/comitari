@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
-if [[ $COMMAND = "development" ]]; then
+if [ "$COMMAND" = "development" ]; then
     echo "Running Development server"
     exec python -Wd manage.py runserver 0:8000
 else
