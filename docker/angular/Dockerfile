@@ -17,9 +17,9 @@ LABEL maintainer="yurinogueira@id.uff.br"
 
 LABEL vendor="Grupinix"
 
-COPY --from=chat-angular-builder /app/dist /usr/share/nginx/html
+COPY --from=chat-angular-builder /app/dist/frontend /usr/share/nginx/html
 COPY ./docker/nginx/prod.conf /temp/prod.conf
 
-RUN envsubst /app < /temp/prod.conf > /etc/nginx/conf.d/default.conf
+RUN envsubst /app < /temp/prod.conf > /etc/nginx/nginx.conf
 
 CMD ["nginx", "-g", "daemon off;"]
