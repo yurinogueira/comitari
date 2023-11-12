@@ -12,14 +12,12 @@ WORKDIR /app
 
 COPY backend .
 
-RUN pip3 install poetry
+RUN pip3 install poetry gunicorn
 RUN poetry install --no-interaction --no-ansi
 
 EXPOSE 8000
 
 COPY docker/django/docker-entrypoint.sh /docker-entrypoint.sh
-
-RUN poetry add gunicorn
 
 RUN chmod +x /docker-entrypoint.sh
 
