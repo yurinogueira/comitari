@@ -1,0 +1,43 @@
+version: "3.8"
+
+services:
+  chat-redis:
+    image: redis:7-alpine
+    container_name: chat-redis
+    volumes:
+      - redis-data:/data
+    network_mode: "host"
+
+  chat-postgres:
+    image: postgres:14.0-alpine
+    container_name: chat-postgres
+    restart: always
+    volumes:
+      - chat-pg-data:/var/lib/postgresql/data
+    network_mode: "host"
+    env_file: ./config/.env
+
+  chat-django:
+    image: ghcr.io/yurinogueira/chat-django:latest
+    container_name: chat-angular
+    restart: always
+    depends_on:
+      - chat-postgres
+      - chat-redis
+    network_mode: "host"
+    env_file: ./config/.env
+
+  chat-angular:
+    image: ghcr.io/grupinix/chat-angular:latest
+    container_name: chat-angular
+    restart: always
+    volumes:
+      - /home/ubuntu/ssl:/ssl/
+    depends_on:
+      - chat-django
+    network_mode: "host"
+    env_file: ./config/.env
+
+volumes:
+  chat-pg-data:
+  redis-data:
