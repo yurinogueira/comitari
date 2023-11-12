@@ -14,15 +14,16 @@ WORKDIR /app
 
 COPY backend .
 
-RUN apk add bash build-base libffi-dev
+RUN apk add bash
 
 FROM py-base AS py-build
 
 ENV POETRY_VIRTUALENVS_CREATE=false
 
+RUN apk add --no-cache gcc libffi-dev musl-dev postgresql-dev
+
 RUN pip install poetry
 
-RUN apk add --no-cache gcc libffi-dev musl-dev postgresql-dev
 RUN poetry install --no-interaction --no-ansi
 
 FROM py-base AS runtime
