@@ -1,0 +1,31 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="form" (ngSubmit)="submit()">
+            <mat-form-field>
+                <input type="text" matInput placeholder="E-mail" formControlName="email">
+            </mat-form-field>
+            <div *ngIf="form.get('email')?.errors && form.get('email')?.touched" class="alert alert-danger small">
+                <div *ngIf="form.get('email')?.errors?.['required']">Informe o e-mail</div>
+                <div *ngIf="form.get('email')?.errors?.['email']">Informe um e-mail valido</div>
+            </div>
+
+            <mat-form-field>
+                <input type="password" matInput placeholder="Senha" formControlName="password">
+            </mat-form-field>
+            <div *ngIf="form.get('password')?.errors && form.get('email')?.touched" class="alert alert-danger small">
+                <div *ngIf="form.get('password')?.errors?.['required']">Informe a senha</div>
+            </div>
+
+            <div class="button-div">
+                <button color="accent" (click)="submit()" mat-raised-button>Login</button>
+            </div>
+            <br>
+            <div class="link-div">
+                <button (click)="register()" mat-button>Criar conta</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

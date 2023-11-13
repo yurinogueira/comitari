@@ -69,12 +69,7 @@ class JWTSerializer(TokenObtainPairSerializer):
 
         if user.two_factor and not code:
             raise serializers.ValidationError(
-                {
-                    "developer_message": "error_otp_authentication_login",
-                    "user_message": (
-                        "Esta conta possui autenticação de 2-Fatores ativo."
-                    ),
-                }
+                "Esta conta possui autenticação de 2-Fatores ativo."
             )
 
         attrs["email"] = user.email
