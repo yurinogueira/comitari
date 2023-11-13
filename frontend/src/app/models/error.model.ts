@@ -1,4 +1,4 @@
-export class ErrorDto {
+export class ErrorModel {
 
     public developer_message: string;
     public user_message: string;

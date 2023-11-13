@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {LoginDto} from "../dtos/login.dto";
+import {RegisterModel} from "../models/register.model";
 
 
 @Injectable()
@@ -15,20 +15,14 @@ export class UserService {
         });
     }
 
-    public login(login: LoginDto): Promise<boolean> {
+    public register(register: RegisterModel): Promise<boolean> {
         return new Promise(resolve => {
             this.http.post(
-                "api/token/",
-                JSON.stringify(login),
+                "users/register",
+                JSON.stringify(register),
                 {headers: this.httpHeaders, responseType: "text"}
             ).subscribe({
-                next: data => {
-                    const dataJson = JSON.parse(data);
-
-                    localStorage.setItem("accessToken", dataJson["token"]);
-                    localStorage.setItem("refreshToken", dataJson["refresh"]);
-                    localStorage.setItem("username", dataJson["username"]);
-
+                next: () => {
                     resolve(true);
                 },
                 error: error => {
@@ -37,53 +31,6 @@ export class UserService {
                 }
             });
         });
-    }
-
-    public refreshLogin(refreshToken: string): Promise<boolean> {
-        return new Promise(resolve => {
-            this.http.post(
-                "api/token/refresh/",
-                JSON.stringify({token: refreshToken}),
-                {headers: this.httpHeaders, responseType: "text"}
-            ).subscribe({
-                next: data => {
-                    const dataJson = JSON.parse(data);
-
-                    localStorage.setItem("accessToken", dataJson["token"]);
-
-                    resolve(true);
-                },
-                error: error => {
-                    console.log(error);
-                    resolve(false);
-                }
-            });
-        });
-    }
-
-    public verifyLogin(accessToken: string): Promise<boolean> {
-        return new Promise(resolve => {
-            this.http.post(
-                "api/token/verify/",
-                JSON.stringify({token: accessToken}),
-                {headers: this.httpHeaders, responseType: "text"}
-            ).subscribe({
-                next: data => {
-                    resolve(true);
-                },
-                error: error => {
-                    console.log(error);
-                    this.logout();
-                    resolve(false);
-                }
-            });
-        });
-    }
-
-    public logout() {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        localStorage.removeItem("username");
     }
 
 }

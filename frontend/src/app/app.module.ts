@@ -8,14 +8,16 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {APIInterceptor} from "./interceptors/api.interceptor";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {AppMaterialModule} from "./app-material.module";
-import {LoginFormComponent} from "./components/login/login-form.component";
+import {LoginComponent} from "./components/login/login.component";
 import {ReactiveFormsModule} from "@angular/forms";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {RegisterComponent} from "./components/register/register.component";
+import {ChatComponent} from "./components/chat/chat.component";
 
 
 @NgModule({
     declarations: [
-        AppComponent, LoginFormComponent
+        AppComponent, LoginComponent, RegisterComponent, ChatComponent
     ],
     imports: [
         BrowserModule,

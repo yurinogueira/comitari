@@ -1,22 +1,28 @@
 import {Component, OnInit} from '@angular/core';
-import {UserService} from "../../services/user.service";
+import {AuthService} from "../../services/auth.service";
 import {Router} from "@angular/router";
+import {EventService} from "../../services/event.service";
 
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
-    styles: [],
-    providers: [UserService, Router]
+    styleUrls: ["./app.component.css"],
+    providers: [AuthService, Router]
 })
 export class AppComponent implements OnInit {
 
-    constructor(private _userService: UserService, private router: Router) {
+    loading: boolean = false;
+    logged: boolean = false;
+
+    constructor(private authService: AuthService, private router: Router) {
+        EventService.get("loading").subscribe(data => this.loading = data);
+        EventService.get("logged").subscribe(data => this.logged = data);
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
         const token = localStorage.getItem("accessToken");
         if (token) {
-            this._userService.verifyLogin(token).then(isValid => {
+            this.authService.verifyLogin(token).then(isValid => {
                 const page = isValid ? "main" : "login";
                 this.router.navigate([page]).then(() => console.log(page));
             });
@@ -24,6 +30,11 @@ export class AppComponent implements OnInit {
             this.router.navigate(["login"]).then(() => console.log("login"));
         }
 
+    }
+
+    logout() {
+        this.authService.logout();
+        this.router.navigate(["login"]).then(() => console.log("login"));
     }
 
 }
