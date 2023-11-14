@@ -26,8 +26,6 @@ export class ChatComponent implements AfterViewInit {
     }
 
     loadMessages() {
-        this.shouldCall = false;
-
         if (this.messages.length > 0) {
             const lastMessage = this.messages[this.messages.length - 1];
             this.chatService.listAfter(lastMessage.id).then(messages => {
@@ -45,6 +43,7 @@ export class ChatComponent implements AfterViewInit {
             this.chatService.create(this.messageForm.value.msg).then(message => {
                 this.messageForm.reset();
                 if (message) {
+                    this.shouldCall = false;
                     this.loadMessages();
                 }
             });
@@ -58,7 +57,7 @@ export class ChatComponent implements AfterViewInit {
             } else {
                 this.loadMessages();
             }
-        }, 5000)
+        }, 2000)
     }
 
 }
