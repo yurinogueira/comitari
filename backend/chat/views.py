@@ -48,23 +48,20 @@ class MessageViewSet(ModelViewSet):
     @action(
         detail=False,
         methods=["get"],
-        url_path="(?P<id>[^/.]+)/messages",
+        url_path="(?P<pk>[^/.]+)/messages",
     )  # noqa
-    def list_after(self, request):
-        identifier = self.kwargs.get("id")
-        if identifier is None:
+    def list_after(self, request, pk=None):
+        if pk is None:
             return Response(
                 {"detail": "Identifier not provided."},
                 status=HTTP_400_BAD_REQUEST,
             )
 
-        queryset = self.get_queryset()
-
         try:
-            message = queryset.get(pk=identifier)
-            result = queryset.filter(timestamp__gt=message.timestamp)
+            message = super().get_queryset().get(pk=pk)
+            result = super().get_queryset().filter(timestamp__gt=message.timestamp)
         except Message.DoesNotExist:
-            result = queryset
+            result = self.get_queryset()
 
         serializer = self.get_serializer(result, many=True)
 

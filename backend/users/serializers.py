@@ -26,8 +26,6 @@ class UserSerializer(serializers.ModelSerializer):
         exclude = (
             "id",
             "password",
-            "is_staff",
-            "is_active",
             "is_superuser",
             "last_login",
             "user_permissions",

@@ -1,0 +1,33 @@
+<mat-card class="mat-card-main">
+    <mat-card-header>
+        <mat-card-title>Chat</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-list>
+            <mat-list-item *ngFor="let message of messages">
+                <div matListItemTitle>
+                    <span class="float-left">{{message.author.firstName}} {{message.author.lastName}}</span>
+                    <span class="float-right">{{message.timestamp | date}}</span>
+                </div>
+                <div matListItemLine *ngIf="messages.indexOf(message) !== (messages.length - 1)">
+                    <span class="float-left">{{message.content}}</span>
+                </div>
+                <div matListItemLine *ngIf="messages.indexOf(message) === (messages.length - 1)">
+                    <span class="float-left" aeScrollIntoView>{{message.content}}</span>
+                </div>
+            </mat-list-item>
+        </mat-list>
+        <br>
+        <form [formGroup]="messageForm">
+            <mat-form-field class="float-left">
+                <mat-label>Mensagem</mat-label>
+                <input matInput #message maxlength="128" placeholder="E ai meu povo como vai?" formControlName="msg">
+                <mat-hint align="start"><strong>Não insira suas informações pessoais</strong></mat-hint>
+                <mat-hint align="end">{{message.value.length}} / 256</mat-hint>
+            </mat-form-field>
+            <div class="button-div float-right">
+                <button color="accent" (click)="submit()" mat-raised-button>Enviar</button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

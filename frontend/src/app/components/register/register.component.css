@@ -33,10 +33,10 @@ mat-card-content {
 
 @media (max-width: 512px)  {
     mat-card {
-        width: 448px;
+        width: 90%;
     }
 
     mat-form-field {
-        width: 416px;
+        width: 100%;
     }
 }

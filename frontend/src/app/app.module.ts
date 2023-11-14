@@ -13,11 +13,12 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {RegisterComponent} from "./components/register/register.component";
 import {ChatComponent} from "./components/chat/chat.component";
+import {ScrollIntoView} from "./directives/scroll-into-view.directive";
 
 
 @NgModule({
     declarations: [
-        AppComponent, LoginComponent, RegisterComponent, ChatComponent
+        AppComponent, LoginComponent, RegisterComponent, ChatComponent, ScrollIntoView
     ],
     imports: [
         BrowserModule,
@@ -27,7 +28,7 @@ import {ChatComponent} from "./components/chat/chat.component";
         NgbModule,
         AppMaterialModule,
         ReactiveFormsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
     ],
     providers: [
         {

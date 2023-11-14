@@ -1,6 +1,5 @@
-export class User {
+export class UserModel {
 
-    public id: number;
     public email: string;
     public username: string;
     public twoFactor: boolean;
@@ -10,8 +9,7 @@ export class User {
     public isActive: boolean;
     public dateJoined: Date;
 
-    constructor(id: number,
-                email: string,
+    constructor(email: string,
                 username: string,
                 twoFactor: boolean,
                 firstName: string,
@@ -20,7 +18,6 @@ export class User {
                 isActive: boolean,
                 dateJoined: Date) {
 
-        this.id = id;
         this.email = email;
         this.username = username;
         this.twoFactor = twoFactor;
