@@ -51,13 +51,13 @@ export class ChatComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        setTimeout(() => {
+        setInterval(() => {
             if (!this.shouldCall) {
                 this.shouldCall = true;
             } else {
                 this.loadMessages();
             }
-        }, 2000)
+        }, 1500)
     }
 
 }

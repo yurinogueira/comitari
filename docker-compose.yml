@@ -13,7 +13,6 @@ x-service_defaults: &django_default
     - ./backend/users:/app/users
     - ./backend/conftest.py:/app/conftest.py
     - ./backend/manage.py:/app/manage.py
-    - ./backend/poetry.lock:/app/poetry.lock
     - ./backend/pyproject.toml:/app/pyproject.toml
     - ./backend/README.md:/app/README.md
   networks:
